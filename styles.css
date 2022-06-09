@@ -1,0 +1,27 @@
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+#appTitle {
+    margin: auto;
+}
+
+#controls {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.buttonImage10 {
+    width: 10px;
+    height: 10px;
+
+    padding-left: 0.2rem;
+}
+
+.buttonImage15 {
+    width: 15px;
+    height: 15px;
+
+    padding-top: 0.2rem;
+}
