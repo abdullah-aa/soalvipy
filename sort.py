@@ -1,6 +1,7 @@
 import random
 import sys
 from tokenize import Number
+from turtle import right
 
 type = sys.argv[1]
 num_of_elements = int(sys.argv[2])
@@ -41,5 +42,35 @@ if (type == 'selection'):
                 smallest = inner_counter
         if (index is not smallest):
             swap(smallest, index, numbers)
+
+if (type == 'merge'):
+    def topDownSplitMerge(arrA):
+        arrB = []
+        for element in arrA: arrB.append(element)
+
+        splitMerge(arrB, 0, len(arrA), arrA)
+
+    def splitMerge(arrB, begin, end, arrA):
+        if ((end - begin) <= 1): return
+
+        middle = int((end + begin)/2)
+        splitMerge(arrA, begin, middle, arrB)
+        splitMerge(arrA, middle, end, arrB)
+
+        merge(arrB, begin, middle, end, arrA)
+
+    def merge(arrA, begin, middle, end, arrB):
+        left_counter = begin
+        right_counter = middle
+
+        for counter in range(begin, end):
+            if ((left_counter < middle) and ((right_counter >= end) or (arrA[left_counter] <= arrA[right_counter]))):
+                arrB[counter] = arrA[left_counter]
+                left_counter += 1
+            else:
+                arrB[counter] = arrA[right_counter]
+                right_counter += 1
+
+    topDownSplitMerge(numbers)
 
 print(numbers)
