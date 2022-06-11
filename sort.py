@@ -1,7 +1,7 @@
 import random
 import sys
 from tokenize import Number
-from turtle import right
+from turtle import left, right
 
 type = sys.argv[1]
 num_of_elements = int(sys.argv[2])
@@ -44,22 +44,22 @@ if (type == 'selection'):
             swap(smallest, index, numbers)
 
 if (type == 'merge'):
-    def topDownSplitMerge(arrA):
+    def topDownMergeSort(arrA):
         arrB = []
         for element in arrA: arrB.append(element)
 
-        splitMerge(arrB, 0, len(arrA), arrA)
+        splitMergeSort(arrB, 0, len(arrA), arrA)
 
-    def splitMerge(arrB, begin, end, arrA):
+    def splitMergeSort(arrB, begin, end, arrA):
         if ((end - begin) <= 1): return
 
         middle = int((end + begin)/2)
-        splitMerge(arrA, begin, middle, arrB)
-        splitMerge(arrA, middle, end, arrB)
+        splitMergeSort(arrA, begin, middle, arrB)
+        splitMergeSort(arrA, middle, end, arrB)
 
-        merge(arrB, begin, middle, end, arrA)
+        mergeSort(arrB, begin, middle, end, arrA)
 
-    def merge(arrA, begin, middle, end, arrB):
+    def mergeSort(arrA, begin, middle, end, arrB):
         left_counter = begin
         right_counter = middle
 
@@ -71,6 +71,70 @@ if (type == 'merge'):
                 arrB[counter] = arrA[right_counter]
                 right_counter += 1
 
-    topDownSplitMerge(numbers)
+    topDownMergeSort(numbers)
+
+if (type == 'quick'):
+    def lomutoQuickSort(elements):
+        quickSort(elements, 0, len(elements) - 1)
+
+    def quickSort(elements, lo, hi):
+        if ((lo >= hi) or (lo < 0)): return
+
+        pivot = partition(elements, lo, hi)
+
+        quickSort(elements, lo, pivot - 1)
+        quickSort(elements, pivot + 1, hi)
+
+    def partition(elements, lo, hi):
+        pivot = elements[hi]
+        new_pivot = lo - 1
+
+        for counter in range(lo, hi):
+            if (elements[counter] <= pivot):
+                new_pivot += 1
+                swap(new_pivot, counter, elements)
+        
+        new_pivot += 1
+        swap(new_pivot, hi, elements)
+
+        return new_pivot
+
+    lomutoQuickSort(numbers)
+
+if (type == 'heap'):
+    def heapSort(elements):
+        heapify(elements)
+        
+        for end in reversed(range(1, len(elements))):
+            swap(0, end, elements)
+            siftDown(elements, 0, end -1)
+    
+    def heapify(elements):
+        count = len(elements)
+        start = int((count - 1)/2)
+
+        for start in reversed(range(start + 1)):
+            siftDown(elements, start, count - 1)
+
+    def siftDown(elements, start, end):
+        root = start
+        leftChildIndex = lambda parent : (2 * parent) + 1
+
+        while (leftChildIndex(root) <= end):
+            leftChild = leftChildIndex(root)
+            toSwap = root
+            
+            if (elements[toSwap] < elements[leftChild]):
+                toSwap = leftChild
+            if ((leftChild + 1 <= end) and (elements[toSwap] < elements[leftChild + 1])):
+                toSwap = leftChild + 1
+            if (toSwap == root): 
+                return
+            else:
+                swap(root, toSwap, elements)
+                root = toSwap
+
+    heapSort(numbers)
+
 
 print(numbers)
