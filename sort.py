@@ -1,3 +1,4 @@
+from asyncore import loop
 import random
 import sys
 from tokenize import Number
@@ -6,7 +7,8 @@ from turtle import left, right
 type = sys.argv[1]
 num_of_elements = int(sys.argv[2])
 
-numbers = list(range(num_of_elements))
+frames = [];
+numbers = list(range(1, num_of_elements + 1))
 random.shuffle(numbers)
 print(numbers)
 
@@ -18,21 +20,29 @@ def swap(to_index, from_index, array):
 if (type == 'bubble'):
     elements_to_check = num_of_elements
     while elements_to_check >= 1:
+        loop_frames = []
         new_elements_to_check = 0
         for index in range(1, elements_to_check):
             if (numbers[index - 1] > numbers[index]):
                 swap(index, index - 1, numbers)
                 new_elements_to_check = index
+                loop_frames.append(numbers.copy())
         elements_to_check = new_elements_to_check
+        if (len(loop_frames) > 0):
+            frames += (loop_frames);
 
 if (type == 'insertion'):
     for index in range(1, num_of_elements):
         temp = numbers[index]
         inner_counter = index - 1
+        loop_frames = []
         while (inner_counter >= 0 and numbers[inner_counter] > temp):
             numbers[inner_counter + 1] = numbers[inner_counter]
             inner_counter -= 1
+            loop_frames.append(numbers.copy())
         numbers[inner_counter + 1] = temp
+        loop_frames.append(numbers.copy())
+        frames += (loop_frames);
 
 if (type == 'selection'):
     for index in range(num_of_elements):
@@ -138,3 +148,4 @@ if (type == 'heap'):
 
 
 print(numbers)
+print(frames)

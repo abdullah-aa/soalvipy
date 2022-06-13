@@ -1,6 +1,7 @@
 body {
     display: flex;
     flex-direction: column;
+    background-color: lightgray;
 }
 
 #appTitle {
@@ -24,4 +25,9 @@ body {
     height: 15px;
 
     padding-top: 0.2rem;
+}
+
+#display {
+    background: lightgray;
+    margin: 1rem auto;
 }
